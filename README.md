@@ -16,9 +16,9 @@ This is an educational implementation and is not GoCar's actual internal softwar
 - Design a Software Maintenance Life Cycle (SMLC) model.
 
 ## Team Members
-- Puteri
-- Aida
-- Hazmi
+- Puteri Aina Bt noes (BSW01084927)
+-  Aida Naziha Binti Razli (BSW01085565)
+- Hazmi Shafiq Bin Hamiruddin (BSW01084686)
 
 ## Project Structure
 - docs/ — requirements, AI prompts, comparisons, and reports
