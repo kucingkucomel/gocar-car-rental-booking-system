@@ -756,11 +756,8 @@ const App = {
 
     container.innerHTML = bookings.map(b => {
       // Use shared badge styling utilities
-const payBadgeClass =
-  BadgeUtils.getPaymentBadgeClass(b.paymentStatus);
-
-const bookBadgeClass =
-  BadgeUtils.getBookingBadgeClass(b.bookingStatus);
+      const payBadgeClass = BadgeUtils.getPaymentBadgeClass(b.paymentStatus);
+      const bookBadgeClass = BadgeUtils.getBookingBadgeClass(b.bookingStatus);
 
       const canPay = b.bookingStatus === 'Pending Payment';
       const canCancel = b.bookingStatus !== 'Cancelled';
@@ -936,11 +933,8 @@ const bookBadgeClass =
     }
 
     container.innerHTML = bookings.map(b => {
-      const bookBadgeClass =
-  BadgeUtils.getBookingBadgeClass(b.bookingStatus);
-
-const payBadgeClass =
-  BadgeUtils.getPaymentBadgeClass(b.paymentStatus);
+      const bookBadgeClass = BadgeUtils.getBookingBadgeClass(b.bookingStatus);
+      const payBadgeClass = BadgeUtils.getPaymentBadgeClass(b.paymentStatus);
 
       return `
         <tr>
@@ -1245,30 +1239,11 @@ const payBadgeClass =
   },
 
   /**
-   * Toast notification display
+   * Display a notification through the shared notification utility.
+   * Existing App.showToast(...) calls remain compatible.
    */
   showToast(message, type = 'info') {
-    const container = document.getElementById('toast-container');
-    if (!container) return;
-
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.innerHTML = `
-      <div class="toast-content">
-        <span class="toast-indicator"></span>
-        <span class="toast-message">${message}</span>
-      </div>
-      <button class="toast-close" onclick="this.parentElement.remove()">×</button>
-    `;
-
-    container.appendChild(toast);
-
-    setTimeout(() => {
-      toast.classList.add('fade-out');
-      setTimeout(() => {
-        if (toast.parentElement) toast.remove();
-      }, 400);
-    }, 4500);
+    NotificationUtils.showToast(message, type);
   }
 };
 
