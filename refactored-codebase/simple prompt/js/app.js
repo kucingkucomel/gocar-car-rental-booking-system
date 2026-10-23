@@ -755,15 +755,12 @@ const App = {
     }
 
     container.innerHTML = bookings.map(b => {
-      // Payment badge styling
-      let payBadgeClass = 'badge-warning';
-      if (b.paymentStatus === 'Successful') payBadgeClass = 'badge-success';
-      if (b.paymentStatus === 'Failed') payBadgeClass = 'badge-danger';
+      // Use shared badge styling utilities
+const payBadgeClass =
+  BadgeUtils.getPaymentBadgeClass(b.paymentStatus);
 
-      // Booking status styling
-      let bookBadgeClass = 'badge-warning';
-      if (b.bookingStatus === 'Confirmed') bookBadgeClass = 'badge-success';
-      if (b.bookingStatus === 'Cancelled') bookBadgeClass = 'badge-secondary';
+const bookBadgeClass =
+  BadgeUtils.getBookingBadgeClass(b.bookingStatus);
 
       const canPay = b.bookingStatus === 'Pending Payment';
       const canCancel = b.bookingStatus !== 'Cancelled';
