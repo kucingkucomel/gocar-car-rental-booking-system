@@ -1,9 +1,7 @@
-
 /**
  * Shared badge styling helpers.
- * Used by customer booking history and admin booking views.
+ * Used by customer booking history and administrator booking views.
  */
-
 const BadgeUtils = {
   getPaymentBadgeClass(paymentStatus) {
     switch (paymentStatus) {
