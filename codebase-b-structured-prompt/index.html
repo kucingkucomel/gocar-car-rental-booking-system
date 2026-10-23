@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GoCar Car Rental Booking System — Codebase B</title>
+  <meta name="description" content="CSEB5213 Software Evolution & Maintenance - GoCar Car Rental Prototype (Codebase B)" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚗</text></svg>" />
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/layout.css" />
+  <link rel="stylesheet" href="styles/components.css" />
+  <link rel="stylesheet" href="styles/responsive.css" />
+</head>
+<body>
+  <!-- Application Header & Navigation Bar -->
+  <header id="app-header" class="site-header"></header>
+
+  <!-- Notification Banner / Toast Container -->
+  <div id="notification-container" class="notification-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Main View Container -->
+  <main id="app-main" class="site-main" role="main"></main>
+
+  <!-- Application Footer -->
+  <footer id="app-footer" class="site-footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <span class="brand-badge">GoCar</span>
+          <strong>Car Rental Booking Prototype</strong>
+        </div>
+        <p class="footer-desc">
+          Developed for CSEB5213 Software Evolution &amp; Maintenance Assignment (Codebase B — Structured Engineering Specification).
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Demo Specifications</h4>
+        <ul class="footer-links">
+          <li>Seed Data: 4 Baseline Vehicles</li>
+          <li>CDW: Lite, Standard, Essential</li>
+          <li>Flex: Basic Flex, Premium Flex</li>
+          <li>BR-01 Hourly Rounding Rule</li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Role Shortcuts</h4>
+        <div class="footer-shortcuts">
+          <a href="#auth" class="badge badge-info">Demo Accounts</a>
+          <a href="#vehicles" class="badge badge-category">Browse Fleet</a>
+          <a href="#admin" class="badge badge-admin-header">Admin Portal</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Academic Educational Prototype. Illustrative pricing only. Not affiliated with GoCar Malaysia commercial services.</p>
+    </div>
+  </footer>
+
+  <!-- Application Bootstrap (ES Modules) -->
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+/**
+ * Responsive Stylesheet
+ * Adapts layout, grids, navigation, and components for tablet and mobile viewports.
+ */
+
+@media (max-width: 992px) {
+  .booking-layout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sticky-summary-wrap {
+    position: static;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .booking-item-body {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    flex-direction: column;
+    padding: 1.25rem 1.5rem;
+    gap: 1rem;
+    box-shadow: var(--shadow-md);
+    display: none;
+  }
+
+  .nav-menu.nav-menu-open {
+    display: flex;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .nav-link {
+    width: 100%;
+    padding: 0.6rem;
+  }
+
+  .nav-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .nav-actions .btn,
+  .user-profile-badge {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .rental-times-grid,
+  .form-row-2,
+  .vehicle-specs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .package-options-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-item-body {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .sim-buttons-group {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .site-main {
+    padding: 1rem 0.75rem;
+  }
+
+  .catalog-title {
+    font-size: 1.5rem;
+  }
+
+  .vehicle-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-dialog {
+    margin: 0.5rem;
+    max-height: 95vh;
+  }
+
+  .auth-card,
+  .payment-container,
+  .config-card {
+    padding: 1rem;
+  }
+
+  .catalog-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
