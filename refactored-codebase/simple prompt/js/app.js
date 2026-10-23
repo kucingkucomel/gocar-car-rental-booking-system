@@ -936,13 +936,11 @@ const bookBadgeClass =
     }
 
     container.innerHTML = bookings.map(b => {
-      let bookBadgeClass = 'badge-warning';
-      if (b.bookingStatus === 'Confirmed') bookBadgeClass = 'badge-success';
-      if (b.bookingStatus === 'Cancelled') bookBadgeClass = 'badge-secondary';
+      const bookBadgeClass =
+  BadgeUtils.getBookingBadgeClass(b.bookingStatus);
 
-      let payBadgeClass = 'badge-warning';
-      if (b.paymentStatus === 'Successful') payBadgeClass = 'badge-success';
-      if (b.paymentStatus === 'Failed') payBadgeClass = 'badge-danger';
+const payBadgeClass =
+  BadgeUtils.getPaymentBadgeClass(b.paymentStatus);
 
       return `
         <tr>
