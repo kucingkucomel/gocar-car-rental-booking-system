@@ -31,10 +31,10 @@ function runSuite(file, title) {
 }
 
 runSuite('acceptance.test.js', 'System Acceptance Criteria (18 Tests)');
-runSuite('unit-refactored.test.js', 'Refactored Units & Security Regression (22 Tests)');
+runSuite('unit-refactored.test.js', 'Refactored Units, BadgeUtils & Security Regression (32 Tests)');
 
 console.log('====================================================');
 console.log(`TOTAL SUITES EXECUTED: ${totalSuites}`);
 console.log(`TOTAL SUITES PASSED:   ${passedSuites}`);
-console.log(`TOTAL TEST ASSERTIONS: 40 (18 Acceptance + 22 Unit)`);
+console.log(`TOTAL TEST ASSERTIONS: 50 (18 Acceptance + 32 Unit)`);
 console.log('====================================================');

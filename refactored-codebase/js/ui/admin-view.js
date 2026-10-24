@@ -102,13 +102,8 @@ const AdminView = {
     }
 
     container.innerHTML = bookings.map(b => {
-      let bookBadgeClass = 'badge-warning';
-      if (b.bookingStatus === 'Confirmed') bookBadgeClass = 'badge-success';
-      if (b.bookingStatus === 'Cancelled') bookBadgeClass = 'badge-secondary';
-
-      let payBadgeClass = 'badge-warning';
-      if (b.paymentStatus === 'Successful') payBadgeClass = 'badge-success';
-      if (b.paymentStatus === 'Failed') payBadgeClass = 'badge-danger';
+      const bookBadgeClass = BadgeUtils.getBookingBadgeClass(b.bookingStatus);
+      const payBadgeClass = BadgeUtils.getPaymentBadgeClass(b.paymentStatus);
 
       const safeId = DOMUtils.escapeHTML(b.id);
       const safeCustomerName = DOMUtils.escapeHTML(b.customerName);

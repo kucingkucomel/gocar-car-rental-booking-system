@@ -46,6 +46,7 @@ function runFile(filePath) {
 runFile('js/constants/app-constants.js');
 runFile('js/utils/formatters.js');
 runFile('js/utils/dom-utils.js');
+runFile('js/utils/badge-utils.js');
 runFile('js/services/data-store.js');
 runFile('js/services/auth-service.js');
 runFile('js/services/booking-service.js');
@@ -54,6 +55,7 @@ runFile('js/ui/vehicle-assets.js');
 
 const DOMUtils = sandbox.DOMUtils;
 const Formatters = sandbox.Formatters;
+const BadgeUtils = sandbox.BadgeUtils;
 const BookingService = sandbox.BookingService;
 const AdminService = sandbox.AdminService;
 const AuthService = sandbox.AuthService;
@@ -179,6 +181,19 @@ assertUnit(shortPassRes.success === false && shortPassRes.message.includes('at l
 
 const invalidEmailRes = AuthService.register({ name: 'Valid Name', email: 'notanemail', password: 'password123' });
 assertUnit(invalidEmailRes.success === false && invalidEmailRes.message.includes('valid email address'), 'AuthService rejects malformed email address');
+
+// 10. BadgeUtils: Booking & Payment status CSS class mapping
+assertUnit(BadgeUtils.getBookingBadgeClass('Confirmed') === 'badge-success', 'BadgeUtils maps Confirmed booking to badge-success');
+assertUnit(BadgeUtils.getBookingBadgeClass('Cancelled') === 'badge-secondary', 'BadgeUtils maps Cancelled booking to badge-secondary');
+assertUnit(BadgeUtils.getBookingBadgeClass('Pending Payment') === 'badge-warning', 'BadgeUtils maps Pending Payment booking to badge-warning');
+assertUnit(BadgeUtils.getBookingBadgeClass('Unknown Status') === 'badge-warning', 'BadgeUtils maps unknown booking status to badge-warning default');
+assertUnit(BadgeUtils.getBookingBadgeClass(null) === 'badge-warning', 'BadgeUtils maps null booking status to badge-warning default');
+
+assertUnit(BadgeUtils.getPaymentBadgeClass('Successful') === 'badge-success', 'BadgeUtils maps Successful payment to badge-success');
+assertUnit(BadgeUtils.getPaymentBadgeClass('Failed') === 'badge-danger', 'BadgeUtils maps Failed payment to badge-danger');
+assertUnit(BadgeUtils.getPaymentBadgeClass('Pending') === 'badge-warning', 'BadgeUtils maps Pending payment to badge-warning');
+assertUnit(BadgeUtils.getPaymentBadgeClass('Other Status') === 'badge-warning', 'BadgeUtils maps unknown payment status to badge-warning default');
+assertUnit(BadgeUtils.getPaymentBadgeClass(undefined) === 'badge-warning', 'BadgeUtils maps undefined payment status to badge-warning default');
 
 console.log(`\n========================================`);
 console.log(`UNIT TEST RESULTS: ${unitPassed}/${unitTotal} TESTS PASSED`);

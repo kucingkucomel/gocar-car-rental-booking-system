@@ -84,7 +84,7 @@ A systematic static inspection of the baseline source code revealed eight genuin
 | ID | Code Smell Name | Affected File & Lines | Severity | Maintainability & Quality Impact |
 |---|---|---|---|---|
 | **CS-01** | **God Object / Monolithic Controller** | `js/app.js` (Lines 7–1278) | **Critical** | Low cohesion, massive file size (1,284 lines), 33 disparate methods managing state, routing, DOM binding, SVG creation, and HTML templating. |
-| **CS-02** | **Scattered Business Rules & Duplicated Code** | `js/booking.js` (L157–162)<br>`js/admin.js` (L148–150)<br>`js/app.js` (L313, 322, 872–874) | **High** | The definition of an "Active Booking" (`Confirmed` or `Pending Payment`) is duplicated in 4 distinct files. Adding a status risks silent discrepancies. |
+| **CS-02** | **Scattered Business Rules & Duplicated Code** | `js/booking.js` (L157–162)<br>`js/admin.js` (L148–150)<br>`js/app.js` (L313, 322, 759–766, 872–874, 942–948) | **High** | Dual manifestations: (1) Presentation badge mapping duplicated in customer & admin views (Section 4.1.3); (2) Active booking domain predicate duplicated across 4 modules. |
 | **CS-03** | **Security Vulnerability: Unescaped HTML Injection (XSS)** | `js/app.js` (L376, 384, 787, 880, 954, 955, 1264) | **Critical** | Dynamic user and admin inputs (`customerName`, `customerEmail`, `car.name`, `description`, `message`) injected into `innerHTML` without HTML entity escaping. |
 | **CS-04** | **Magic Strings and Numbers** | `js/booking.js`, `js/admin.js`, `js/auth.js`, `js/app.js` | **Medium** | Domain statuses (`'Pending Payment'`, `'Confirmed'`, `'Cancelled'`), roles (`'customer'`, `'admin'`), and conversion factors (`3600000`, `4500`, `400`) hardcoded repeatedly. |
 | **CS-05** | **Hardcoded Vector Assets in Logic Layer** | `js/app.js` (Lines 417–497) | **Medium** | Over 80 lines of SVG paths and geometric coordinates embedded directly inside application controller. |
@@ -148,7 +148,41 @@ A systematic static inspection of the baseline source code revealed eight genuin
 
 ---
 
-### 5.2 CS-02: Scattered Business Rules & Duplicated Code (Active Booking Predicate)
+### 5.2 CS-02 / Section 4.1.3: Duplicate Code & Scattered Business Rules
+
+This code smell manifests in two distinct forms across the codebase: UI presentation logic duplication (Section 4.1.3) and domain business rule duplication.
+
+#### 5.2.1 Section 4.1.3: Presentation Status Badge Mapping Duplication (UI Layer)
+
+- **Exact Locations:**
+  1. Customer Booking History View: `codebase-a-simple-prompt/js/app.js`, lines 759–766:
+     ```javascript
+     // Payment badge styling
+     let payBadgeClass = 'badge-warning';
+     if (b.paymentStatus === 'Successful') payBadgeClass = 'badge-success';
+     if (b.paymentStatus === 'Failed') payBadgeClass = 'badge-danger';
+
+     // Booking status styling
+     let bookBadgeClass = 'badge-warning';
+     if (b.bookingStatus === 'Confirmed') bookBadgeClass = 'badge-success';
+     if (b.bookingStatus === 'Cancelled') bookBadgeClass = 'badge-secondary';
+     ```
+  2. Administrator Booking Management View: `codebase-a-simple-prompt/js/app.js`, lines 942–948:
+     ```javascript
+     let bookBadgeClass = 'badge-warning';
+     if (b.bookingStatus === 'Confirmed') bookBadgeClass = 'badge-success';
+     if (b.bookingStatus === 'Cancelled') bookBadgeClass = 'badge-secondary';
+
+     let payBadgeClass = 'badge-warning';
+     if (b.paymentStatus === 'Successful') payBadgeClass = 'badge-success';
+     if (b.paymentStatus === 'Failed') payBadgeClass = 'badge-danger';
+     ```
+- **Why It Is a Maintainability Problem (Duplicate Code):** The exact conditional mapping from domain statuses (`Confirmed`, `Cancelled`, `Successful`, `Failed`, etc.) to Bootstrap/CSS badge classes (`badge-success`, `badge-secondary`, `badge-danger`, `badge-warning`) is copy-pasted verbatim between customer-facing and administrator-facing UI renderers.
+- **Impact on Future Modifications:** If a new booking status (e.g., `'In Progress'`, `'Completed'`) or payment status (e.g., `'Refunded'`) is introduced, or if styling requirements change (e.g., changing `Cancelled` to `badge-dark`), developers must locate and update multiple UI files. Missing any renderer causes visual inconsistency and UI defects.
+- **Severity:** **Medium**.
+- **Recommended Refactoring Technique:** *Extract Utility / Extract Method*. Extract the mapping into a dedicated reusable module `BadgeUtils` (`badge-utils.js`) providing `getBookingBadgeClass(status)` and `getPaymentBadgeClass(status)`.
+
+#### 5.2.2 Scattered Domain Business Rules: Active Booking Availability Predicate (Domain Layer)
 
 - **Exact Locations:**
   1. `js/booking.js`, Lines 158–162:
@@ -210,7 +244,7 @@ A systematic static inspection of the baseline source code revealed eight genuin
 
 ## 6. Prioritized Refactoring Opportunities
 
-1. **Priority 1 (Architectural Cohesion & Maintainability):** Deconstruct `App` (CS-01) by extracting distinct views (`AuthView`, `VehicleView`, `BookingView`, `AdminView`, `VehicleAssets`, `NotificationUI`) and shared utilities (`Formatters`, `DOMUtils`).
-2. **Priority 2 (Domain Integrity & DRY):** Centralize active booking conflict logic into `BookingService.isActiveBooking` (CS-02).
+1. **Priority 1 (Architectural Cohesion & Maintainability):** Deconstruct `App` (CS-01) by extracting distinct views (`AuthView`, `VehicleView`, `BookingView`, `AdminView`, `VehicleAssets`, `NotificationUI`) and shared utilities (`Formatters`, `DOMUtils`, `BadgeUtils`).
+2. **Priority 2 (Domain Integrity & DRY / Duplicate Code):** Extract duplicated presentation status badge mapping into reusable utility `BadgeUtils` (Section 4.1.3 / CS-02) and centralize active booking conflict logic into `BookingService.isActiveBooking` (CS-02).
 3. **Priority 3 (Application Security):** Eliminate unescaped HTML interpolation with `DOMUtils.escapeHTML()` (CS-03).
 4. **Priority 4 (Robustness & Maintainability):** Centralize magic strings and numbers into `app-constants.js` (CS-04) and standardize currency and date formatting into `formatters.js` (CS-06).

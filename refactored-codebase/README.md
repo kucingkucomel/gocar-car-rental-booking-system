@@ -44,6 +44,7 @@ refactored-codebase/
 │   ├── constants/
 │   │   └── app-constants.js       # Immutable domain statuses, roles, and seed fixtures
 │   ├── utils/
+│   │   ├── badge-utils.js         # Shared status-to-CSS badge class mappings
 │   │   ├── formatters.js          # Pure formatting functions (Currency, Dates, Duration)
 │   │   └── dom-utils.js           # HTML entity escaping (XSS guard) & safe DOM updates
 │   ├── services/
@@ -61,8 +62,8 @@ refactored-codebase/
 │   └── app.js                     # High-cohesion application orchestrator
 └── tests/
     ├── acceptance.test.js         # Acceptance criteria test suite (18 assertions)
-    ├── unit-refactored.test.js    # Unit & security regression test suite (22 assertions)
-    └── run-all-tests.js           # Master test runner executing both suites
+    ├── unit-refactored.test.js    # Unit & security regression test suite (32 assertions)
+    └── run-all-tests.js           # Master test runner executing both suites (50 assertions)
 ```
 
 ---
@@ -110,7 +111,7 @@ For instant manual evaluation, the top demo banner provides quick autofill butto
 
 ## 6. How to Run Automated Tests
 
-The refactored codebase includes 40 automated test assertions across two suites.
+The refactored codebase includes 50 automated test assertions across two suites.
 
 ### Execute Master Test Runner (Both Suites)
 ```powershell

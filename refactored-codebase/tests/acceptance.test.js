@@ -45,6 +45,7 @@ function runFile(filePath) {
 runFile('js/constants/app-constants.js');
 runFile('js/utils/formatters.js');
 runFile('js/utils/dom-utils.js');
+runFile('js/utils/badge-utils.js');
 runFile('js/services/data-store.js');
 runFile('js/services/auth-service.js');
 runFile('js/services/booking-service.js');

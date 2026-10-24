@@ -215,13 +215,8 @@ const BookingView = {
     }
 
     container.innerHTML = bookings.map(b => {
-      let payBadgeClass = 'badge-warning';
-      if (b.paymentStatus === 'Successful') payBadgeClass = 'badge-success';
-      if (b.paymentStatus === 'Failed') payBadgeClass = 'badge-danger';
-
-      let bookBadgeClass = 'badge-warning';
-      if (b.bookingStatus === 'Confirmed') bookBadgeClass = 'badge-success';
-      if (b.bookingStatus === 'Cancelled') bookBadgeClass = 'badge-secondary';
+      const payBadgeClass = BadgeUtils.getPaymentBadgeClass(b.paymentStatus);
+      const bookBadgeClass = BadgeUtils.getBookingBadgeClass(b.bookingStatus);
 
       const canPay = b.bookingStatus === 'Pending Payment';
       const canCancel = b.bookingStatus !== 'Cancelled';

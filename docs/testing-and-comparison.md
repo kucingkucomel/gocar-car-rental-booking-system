@@ -103,7 +103,7 @@ TEST RESULTS: 18/18 TESTS PASSED
 ========================================
 [SUITE PASSED]: System Acceptance Criteria (18 Tests)
 
->>> Running Suite 2: Refactored Units & Security Regression (22 Tests)
+>>> Running Suite 2: Refactored Units, BadgeUtils & Security Regression (32 Tests)
 --- STARTING UNIT & REGRESSION TEST SUITE ---
 [PASS] Unit Test 1: DOMUtils.escapeHTML escapes script tags and double quotes
 [PASS] Unit Test 2: DOMUtils.escapeHTML escapes tag brackets in img payloads
@@ -127,20 +127,30 @@ TEST RESULTS: 18/18 TESTS PASSED
 [PASS] Unit Test 20: VehicleAssets generates default fallback SVG for unknown model
 [PASS] Unit Test 21: AuthService rejects password shorter than 6 characters
 [PASS] Unit Test 22: AuthService rejects malformed email address
+[PASS] Unit Test 23: BadgeUtils maps Confirmed booking to badge-success
+[PASS] Unit Test 24: BadgeUtils maps Cancelled booking to badge-secondary
+[PASS] Unit Test 25: BadgeUtils maps Pending Payment booking to badge-warning
+[PASS] Unit Test 26: BadgeUtils maps unknown booking status to badge-warning default
+[PASS] Unit Test 27: BadgeUtils maps null booking status to badge-warning default
+[PASS] Unit Test 28: BadgeUtils maps Successful payment to badge-success
+[PASS] Unit Test 29: BadgeUtils maps Failed payment to badge-danger
+[PASS] Unit Test 30: BadgeUtils maps Pending payment to badge-warning
+[PASS] Unit Test 31: BadgeUtils maps unknown payment status to badge-warning default
+[PASS] Unit Test 32: BadgeUtils maps undefined payment status to badge-warning default
 
 ========================================
-UNIT TEST RESULTS: 22/22 TESTS PASSED
+UNIT TEST RESULTS: 32/32 TESTS PASSED
 ========================================
-[SUITE PASSED]: Refactored Units & Security Regression (22 Tests)
+[SUITE PASSED]: Refactored Units, BadgeUtils & Security Regression (32 Tests)
 
 ====================================================
 TOTAL SUITES EXECUTED: 2
 TOTAL SUITES PASSED:   2
-TOTAL TEST ASSERTIONS: 40 (18 Acceptance + 22 Unit)
+TOTAL TEST ASSERTIONS: 50 (18 Acceptance + 32 Unit)
 ====================================================
 ```
 
-**Post-Refactoring Status:** 40/40 assertions passed (100% pass rate). Zero regression failures detected.
+**Post-Refactoring Status:** 50/50 assertions passed (100% pass rate). Zero regression failures detected.
 
 ---
 
@@ -154,12 +164,13 @@ To provide rigorous empirical evidence of software improvement, code metrics wer
 |---|---:|---:|---:|---|
 | **Main Controller Lines (`js/app.js`)** | 1,284 lines | 476 lines | **-808 lines (-62.9%)** | God Object dismantled; controller transformed into lean coordinator. |
 | **Main Controller Cyclomatic Complexity** | 169 | 56 | **-113 (-66.9%)** | Drastic reduction in nested decision points and branch complexity. |
-| **JavaScript Modules Count** | 5 files | 14 files | **+9 modules (+180%)** | Cohesion improved; responsibilities isolated into dedicated modules. |
-| **Average Lines per JS Module** | 456.0 lines | 213.9 lines | **-242.1 lines (-53.1%)** | Substantially smaller, more understandable and maintainable files. |
+| **JavaScript Modules Count** | 5 files | 15 files | **+10 modules (+200%)** | Cohesion improved; responsibilities isolated into dedicated modules. |
+| **Average Lines per JS Module** | 456.0 lines | 205.8 lines | **-250.2 lines (-54.9%)** | Substantially smaller, more understandable and maintainable files. |
+| **Duplicated Status Badge Mappings** | 2 views (14 lines) | 0 views (Centralized) | **-2 duplicate blocks (-100%)** | Centralized in `BadgeUtils` (Section 4.1.3 & Section 5.3). |
 | **Duplicated Active Booking Definitions** | 4 locations | 1 location | **-3 locations (-75%)** | Single Source of Truth (`isActiveBooking`) eliminates logic drift. |
 | **Unescaped HTML Interpolation Sites** | 7 locations | 0 locations | **-7 locations (-100%)** | XSS attack vectors fully neutralized via `DOMUtils.escapeHTML()`. |
-| **Automated Test Assertions** | 18 assertions | 40 assertions | **+22 assertions (+122%)** | Test coverage expanded across newly extracted modules and security boundaries. |
-| **Test Pass Rate** | 100% (18/18) | 100% (40/40) | **0% regression (Perfect)** | 100% behavioral equivalence preserved. |
+| **Automated Test Assertions** | 18 assertions | 50 assertions | **+32 assertions (+178%)** | Test coverage expanded across newly extracted modules and security boundaries. |
+| **Test Pass Rate** | 100% (18/18) | 100% (50/50) | **0% regression (Perfect)** | 100% behavioral equivalence preserved. |
 
 ---
 
@@ -186,26 +197,27 @@ TOTAL                           4,411      552        412   3,447
 File                              Total Lines    Blank    Comment    Code
 -------------------------------------------------------------------------
 css/style.css                           1,196      161         26   1,009
-index.html                                716       68         42     606
+index.html                                717       68          0     649
 js/constants/app-constants.js             165       12         12     141
 js/utils/formatters.js                    116       12         28      76
 js/utils/dom-utils.js                      53        5         22      26
+js/utils/badge-utils.js                    46        4         17      25
 js/services/data-store.js                 166       20         15     131
 js/services/auth-service.js               145       24         29      92
 js/services/booking-service.js            379       54         57     268
 js/services/admin-service.js              244       40         40     164
-js/ui/vehicle-assets.js                   119       12         26      81
+js/ui/vehicle-assets.js                   119       12         13      94
 js/ui/notification-ui.js                   59       10         12      37
 js/ui/auth-view.js                        160       17          9     134
 js/ui/vehicle-view.js                     147       21          8     118
-js/ui/booking-view.js                     331       46         12     273
-js/ui/admin-view.js                       206       24          8     174
+js/ui/booking-view.js                     326       45         12     269
+js/ui/admin-view.js                       201       23          8     170
 js/app.js                                 476       71         33     372
-tests/acceptance.test.js                  238       30         32     176
-tests/unit-refactored.test.js             186       25         18     143
+tests/acceptance.test.js                  239       30         32     177
+tests/unit-refactored.test.js             201       27         19     155
 tests/run-all-tests.js                     41        8          4      29
 -------------------------------------------------------------------------
-TOTAL                                   5,143      660        433   4,050
+TOTAL                                   5,196      660        379   4,157
 ```
 
 *Note on Total Line Count:* The total number of source lines increased slightly (from 4,411 to 5,143 lines) due to the addition of comprehensive unit test suites (227 lines), JSDoc method headers, strict defensive error handling, named constants definitions, and modular boilerplate. Crucially, the size of the single largest module plummeted from 1,284 lines down to 476 lines, while cyclomatic complexity plunged from 169 down to 56.
